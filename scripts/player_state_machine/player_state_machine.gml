@@ -87,26 +87,31 @@ function player_physics_step(_move_input, _jump_pressed) {
     }
 
     // === Collision resolution ===
-    if (place_meeting(x + xSpeed, y, obj_wall) || place_meeting(x +xSpeed, y, obj_wall_phasable)) {
-        while (!place_meeting(x + sign(xSpeed), y, obj_wall)) {
-            x += sign(xSpeed);
-        }
-        xSpeed = 0;
-    }
-    if (place_meeting(x, y + ySpeed, obj_wall) || place_meeting(x, y+ySpeed, obj_wall_phasable)) {
-        while (!(place_meeting(x, y + sign(ySpeed), obj_wall) || place_meeting(x, y+sign(ySpeed), obj_wall_phasable))) {
-            y += sign(ySpeed);
-        }
-        ySpeed = 0;
-    }
-    if (place_meeting(x + xSpeed, y + ySpeed, obj_wall) || place_meeting(x + xSpeed, y + ySpeed, obj_wall_phasable)) {
-        while (!(place_meeting(x + sign(xSpeed), y + sign(ySpeed), obj_wall) || place_meeting(x + sign(xSpeed), y + sign(ySpeed), obj_wall_phasable))) {
-            x += sign(xSpeed);
-            y += sign(ySpeed);
-        }
-        xSpeed = 0;
-        ySpeed = 0;
-    }
+	// Horizontal (sides)
+	if (place_meeting(x + xSpeed, y, obj_wall) || place_meeting(x + xSpeed, y, obj_wall_phasable)) {
+		while (!(place_meeting(x + sign(xSpeed), y, obj_wall) || place_meeting(x + sign(xSpeed), y, obj_wall_phasable))) {
+			x += sign(xSpeed);
+		}
+		xSpeed = 0;
+	}
+
+	// Vertical (top/bottom)
+	if (place_meeting(x, y + ySpeed, obj_wall) || place_meeting(x, y + ySpeed, obj_wall_phasable)) {
+		while (!(place_meeting(x, y + sign(ySpeed), obj_wall) || place_meeting(x, y + sign(ySpeed), obj_wall_phasable))) {
+			y += sign(ySpeed);
+		}
+		ySpeed = 0;
+	}
+
+	// Diagonal
+	if (place_meeting(x + xSpeed, y + ySpeed, obj_wall) || place_meeting(x + xSpeed, y + ySpeed, obj_wall_phasable)) {
+		while (!(place_meeting(x + sign(xSpeed), y + sign(ySpeed), obj_wall) || place_meeting(x + sign(xSpeed), y + sign(ySpeed), obj_wall_phasable))) {
+			x += sign(xSpeed);
+			y += sign(ySpeed);
+		}
+		xSpeed = 0;
+		ySpeed = 0;
+	}
 
     // === Apply Movement ===
     x += xSpeed;
