@@ -6,14 +6,15 @@ script_execute(state)
 
 
 	
-if keyBubble {
-	bubbled = !bubbled;
+if keyBubble and bubbled {
+	bubbled = false;
 }
 
 if bubbled {
 	state = player_state_bubble;
 	startX = x;
 } else {
+	hurtTimer = 60;
 	state = player_state_free;
 }
 

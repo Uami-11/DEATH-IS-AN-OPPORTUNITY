@@ -1,27 +1,44 @@
-function player_change_animation(_input, _jump){
-	if (ySpeed != 0){
-		image_speed = 0;
-		sprite_index = spr_player_jump;
-		if sign(ySpeed) ==  1{
-			image_index = 1;
+function player_change_animation(_input, _timer){
+		if !bubbled {
+			if (ySpeed != 0){
+				image_speed = 0;
+				sprite_index = spr_player_jump;
+				if sign(ySpeed) ==  1{
+					image_index = 1;
+				} else {
+					image_index = 0;
+				}
+				if (_input > 0){
+					image_xscale = 1.5;
+				}
+				if (_input < 0){
+					image_xscale = -1.5;
+				}
+		
+		
+			} else {
+				image_speed = 1;
+				if (_input > 0){
+					sprite_index = spr_player_run;
+					image_xscale = 1.5;
+				}
+				if (_input < 0){
+					sprite_index = spr_player_run;
+					image_xscale = -1.5;
+				}
+				if _input == 0 {
+					sprite_index = spr_player_idle;
+				}
+			}
 		} else {
-			image_index = 0;
+			
+			if _timer > 0 {
+				sprite_index = spr_player_hurt;
+			} else {
+				sprite_index = spr_player_dizzy
+			}
+			
 		}
-	} else {
-		image_speed = 1;
-		if (_input > 0){
-			sprite_index = spr_player_run;
-			image_xscale = 1.5;
-		}
-		if (_input < 0){
-			sprite_index = spr_player_run;
-			image_xscale = -1.5;
-		}
-		if _input == 0 {
-			sprite_index = spr_player_idle;
-		}
-	}
-	
 	
 }
 
@@ -40,12 +57,22 @@ function player_state_free(){
 
 function player_state_bubble(){
 	
-	if !place
-	y -= 1;
-	x += sin(timer*0.03) * 0.5;
+	player_change_animation(0, hurtTimer);
 	
+	if !place_meeting(x, y-10, obj_wall){
+		y -= 1;
+	} else {bubbled = false}
+	if place_meeting(x, y, obj_fog) {
+		x += 5
+	} else {
+		x += sin(timer*0.03) * 0.5;
+	}
+	
+	
+	ySpeed = 0
+	hurtTimer--;
 	timer++;
-	
+	show_debug_message(string_concat("hurtTimer: ", hurtTimer))
 }
 
 
@@ -101,6 +128,10 @@ function player_physics_step(_move_input, _jump_pressed) {
 			y += sign(ySpeed);
 		}
 		ySpeed = 0;
+	}
+	
+	if place_meeting(x, y+ySpeed, obj_spikes){
+		bubbled = true;
 	}
 
 	// Diagonal
