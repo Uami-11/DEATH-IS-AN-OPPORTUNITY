@@ -2,7 +2,7 @@ state = player_state_free;
 
 /// Physics Vars (renamed to your style)
 runSpeed = 6;                // Max horizontal speed
-jumpSpeed = -4.75;              // Negative = upward
+jumpSpeed = -5;              // Negative = upward
 jumpBufferCount = 0;         // Tracks buffered jump frames
 jumpBuffer = 10;             // How long a jump press is stored
 coyoteFrames = 2;           // "Ledge buffer" / coyote time

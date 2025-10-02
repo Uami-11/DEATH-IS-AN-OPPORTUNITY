@@ -31,6 +31,7 @@
     {"$GMObjectProperty":"v1","%Name":"FogXSpeed","filters":[],"listItems":[],"multiselect":false,"name":"FogXSpeed","rangeEnabled":true,"rangeMax":10.0,"rangeMin":-10.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"-0.4","varType":0,},
     {"$GMObjectProperty":"v1","%Name":"FogYSpeed","filters":[],"listItems":[],"multiselect":false,"name":"FogYSpeed","rangeEnabled":true,"rangeMax":10.0,"rangeMin":-10.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0.5","varType":0,},
     {"$GMObjectProperty":"v1","%Name":"FogDensity","filters":[],"listItems":[],"multiselect":false,"name":"FogDensity","rangeEnabled":true,"rangeMax":20.0,"rangeMin":0.2,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"10","varType":0,},
+    {"$GMObjectProperty":"v1","%Name":"dir","filters":[],"listItems":[],"multiselect":false,"name":"dir","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
   ],
   "resourceType":"GMObject",
   "resourceVersion":"2.0",

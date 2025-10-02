@@ -6,7 +6,7 @@ function keyboard_input(){
 	keyJump = keyboard_check(vk_space) ;
 	keyJumpPressed = keyboard_check_pressed(vk_space);
 	keyBurst = keyboard_check(ord("R"));
-	keyBubble = keyboard_check_pressed(ord("O"));
+	keyBubble = keyboard_check_pressed(ord("O")) || keyboard_check_pressed(vk_space);
 	
 
 }
