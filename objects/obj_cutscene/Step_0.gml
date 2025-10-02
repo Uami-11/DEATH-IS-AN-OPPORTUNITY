@@ -1,0 +1,1 @@
+script_execute_alt(currentScene[0], currentSceneArray);

@@ -42,3 +42,5 @@ bubbled = false;
 startX = 0;
 timer = -1;
 hurtTimer = 400;
+wasGrounded = false;
+died = false;

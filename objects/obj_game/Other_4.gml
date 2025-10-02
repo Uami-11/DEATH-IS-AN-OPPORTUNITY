@@ -1,0 +1,1 @@
+transition_place_sequence(sqSlideInDiagonal);

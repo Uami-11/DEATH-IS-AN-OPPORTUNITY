@@ -46,9 +46,12 @@ function player_state_free(){
 
     var _move_input = keyRight - keyLeft;   // already in your code
     var _jump_pressed = keyJumpPressed;     // already in your code
-
-    player_physics_step(_move_input, _jump_pressed);
-	player_change_animation(_move_input, _jump_pressed);
+	if died {
+		sprite_index = spr_player_dead
+	} else {
+		player_physics_step(_move_input, _jump_pressed);
+		player_change_animation(_move_input, _jump_pressed);
+	}
 
     show_debug_message("xSpeed: " + string(xSpeed) + " | ySpeed: " + string(ySpeed));
 
@@ -61,13 +64,22 @@ function player_state_bubble(){
 	
 	if !place_meeting(x, y-10, obj_wall){
 		y -= 1;
-	} else {bubbled = false}
+	} else {bubbled = false; audio_play_sound(snd_popped, 10, 0); died = true;}
 	if place_meeting(x, y, obj_fog) {
 		x += 5 * obj_fog.dir;
 	} else {
 		x += sin(timer*0.03) * 0.5;
 	}
+	if place_meeting(x, y-11, obj_bubble_trap){
+		show_debug_message("HELLO I AM TRYING")
+		transition_start(room, sqSlideOutDiagonal, sqSlideInDiagonal)
 	
+	}
+	if !place_meeting(x, y, obj_wall_phasable) and hurtTimer < 0{	
+		if keyBubble {
+			bubbled = false;
+		}
+	}
 	
 	ySpeed = 0
 	hurtTimer--;
@@ -79,11 +91,14 @@ function player_state_bubble(){
 function player_physics_step(_move_input, _jump_pressed) {
     // === Jump Buffering ===
     if (_jump_pressed) {
+		
         jumpBufferCount = 0;
     }
     if (jumpBufferCount < jumpBuffer) {
         jumpBufferCount++;
     }
+	
+	
 
     // === Horizontal Movement ===
     if (place_meeting(x, y + 1, obj_wall) || place_meeting(x, y + 1, obj_wall_phasable)) { // On ground
@@ -110,6 +125,8 @@ function player_physics_step(_move_input, _jump_pressed) {
     if ((place_meeting(x, y + 1, obj_wall) || place_meeting(x, y + 1, obj_wall_phasable)) && jumpBufferCount < jumpBuffer) {
         ySpeed = jumpSpeed;
         jumpBufferCount = jumpBuffer; // consume buffer
+	    audio_sound_pitch(snd_jump, 0.65);
+	    audio_play_sound(snd_jump, 10, 0);
     }
 
     // === Collision Resolution ===
@@ -170,5 +187,16 @@ function player_physics_step(_move_input, _jump_pressed) {
     // Check for spikes
     if (place_meeting(x, y, obj_spikes)) {
         bubbled = true;
+		
+		if !audio_is_playing(snd_bubbled){ audio_sound_pitch(snd_bubbled, 1.5); audio_play_sound(snd_bubbled, 10, 0);}
     }
+	
+	var grounded = (place_meeting(x, y + 1, obj_wall) || place_meeting(x, y + 1, obj_wall_phasable));
+
+	if (grounded && !wasGrounded && ySpeed >= 0) {
+	    // Just landed
+	    audio_play_sound(snd_land, 10, 0);
+	}
+	
+	wasGrounded = grounded;
 }

@@ -1,0 +1,1 @@
+global.npcInteractions = 0;

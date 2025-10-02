@@ -1,0 +1,3 @@
+
+x += xSpeed;
+y += ySpeed;
