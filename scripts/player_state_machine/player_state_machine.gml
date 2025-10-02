@@ -1,101 +1,114 @@
+function player_change_animation(_input, _jump){
+	if (ySpeed != 0){
+		image_speed = 0;
+		sprite_index = spr_player_jump;
+		if sign(ySpeed) ==  1{
+			image_index = 1;
+		} else {
+			image_index = 0;
+		}
+	} else {
+		image_speed = 1;
+		if (_input > 0){
+			sprite_index = spr_player_run;
+			image_xscale = 1.5;
+		}
+		if (_input < 0){
+			sprite_index = spr_player_run;
+			image_xscale = -1.5;
+		}
+		if _input == 0 {
+			sprite_index = spr_player_idle;
+		}
+	}
+	
+	
+}
+
 function player_state_free(){
-	xSpeed = keyRight - keyLeft;
-	
-	if coyoteHangTimer > 0 {
-		coyoteHangTimer--
-	} else {
-		ySpeed += grav;
-		setOnGround(false);
-	}
 
-	if ySpeed > terminal {
-		ySpeed = terminal;
-	}
+    var _move_input = keyRight - keyLeft;   // already in your code
+    var _jump_pressed = keyJumpPressed;     // already in your code
 
-	var topSpeed = runSpeed;
-	var dir = sign(xSpeed)
+    player_physics_step(_move_input, _jump_pressed);
+	player_change_animation(_move_input, _jump_pressed);
+
+    show_debug_message("xSpeed: " + string(xSpeed) + " | ySpeed: " + string(ySpeed));
 
 
-
-	if (dir != 0){
-	
-		if lastH != xSpeed {
-			lastH = xSpeed;
-			accelFinal = 0;
-		}
-		if accelFinal <= topSpeed {
-			accelFinal += Acceleration;
-		} 
-		
-	
-	} else {
-		if accelFinal > 0{
-			accelFinal -= Decceleration;
-		}
-
-	}
-
-	if accelFinal < Acceleration{
-		accelFinal = 0;
-		lastH = 0;
-	
-	}
-	if accelFinal > topSpeed {
-		accelFinal = topSpeed
-	}
-
-
-	xSpeed = accelFinal * lastH
-
-	var _subPixel = .5;
-	if (place_meeting(x + xSpeed, y, obj_wall)){
-
-	    var _pixelCheck = _subPixel * sign(xSpeed);
-	    while (!place_meeting(x + _pixelCheck, y, obj_wall)){
-	        x+= _pixelCheck;
-	    }
-
-	    // set xspd to zero to collide
-	    xSpeed = 0;
-	}
-
-	if (jumpKeyBuffered && onGround){
-	
-		// buffer reset
-		jumpKeyBuffered = false;
-		jumpKeyBufferTimer = 0;
-	
-	    ySpeed = jumpSpeed; 
-	}
-
-	var _subPixel = .5;
-	if place_meeting(x, y + ySpeed, obj_wall){
-    
-	    var _pixelCheck = _subPixel * sign(ySpeed);
-	    while (!place_meeting(x, y + _subPixel, obj_wall)){
-	        y += _pixelCheck;
-	    }
-	    ySpeed = 0;
-    
-	}
-
-	if ySpeed >= 0 and place_meeting(x, y+1, obj_wall){
-		setOnGround();
-	}
-
-	x += xSpeed;
-	y += ySpeed
-
-	
-	show_debug_message(accelFinal)
 }
 
 function player_state_bubble(){
 	
-	
+	if !place
 	y -= 1;
 	x += sin(timer*0.03) * 0.5;
 	
 	timer++;
 	
+}
+
+
+function player_physics_step(_move_input, _jump_pressed) {
+    // === Jump Buffering ===
+    if (_jump_pressed) {
+        jumpBufferCount = 0;
+    }
+    if (jumpBufferCount < jumpBuffer) {
+        jumpBufferCount++;
+    }
+
+    // === Horizontal Movement ===
+    if (place_meeting(x, y + 1, obj_wall) || place_meeting(x, y + 1, obj_wall_phasable)) { // On ground
+        if _move_input == 0 || (xSpeed * _move_input < 0) {
+            xSpeed -= xSpeed * brakeRateGround;
+        }
+        xSpeed += _move_input * accelRateGround;
+    }
+    else { // In air
+        if _move_input == 0 || (xSpeed * _move_input < 0) {
+            xSpeed -= xSpeed * brakeRateAir;
+        }
+        xSpeed += _move_input * accelRateAir;
+    }
+
+    // Clamp speed
+    xSpeed = clamp(xSpeed, -runSpeed, runSpeed);
+
+    // === Gravity ===
+    if (ySpeed < gravMax) || !(place_meeting(x, y + 1, obj_wall) || place_meeting(x, y + 1, obj_wall_phasable)) {
+        ySpeed += gravRate;
+    }
+
+    // === Jump (coyote / ledge buffer) ===
+    if ((place_meeting(x, y + 1, obj_wall) || place_meeting(x, y+1, obj_wall_phasable)) && jumpBufferCount < jumpBuffer) {
+        ySpeed = jumpSpeed;
+        jumpBufferCount = jumpBuffer; // consume buffer
+    }
+
+    // === Collision resolution ===
+    if (place_meeting(x + xSpeed, y, obj_wall) || place_meeting(x +xSpeed, y, obj_wall_phasable)) {
+        while (!place_meeting(x + sign(xSpeed), y, obj_wall)) {
+            x += sign(xSpeed);
+        }
+        xSpeed = 0;
+    }
+    if (place_meeting(x, y + ySpeed, obj_wall) || place_meeting(x, y+ySpeed, obj_wall_phasable)) {
+        while (!(place_meeting(x, y + sign(ySpeed), obj_wall) || place_meeting(x, y+sign(ySpeed), obj_wall_phasable))) {
+            y += sign(ySpeed);
+        }
+        ySpeed = 0;
+    }
+    if (place_meeting(x + xSpeed, y + ySpeed, obj_wall) || place_meeting(x + xSpeed, y + ySpeed, obj_wall_phasable)) {
+        while (!(place_meeting(x + sign(xSpeed), y + sign(ySpeed), obj_wall) || place_meeting(x + sign(xSpeed), y + sign(ySpeed), obj_wall_phasable))) {
+            x += sign(xSpeed);
+            y += sign(ySpeed);
+        }
+        xSpeed = 0;
+        ySpeed = 0;
+    }
+
+    // === Apply Movement ===
+    x += xSpeed;
+    y += ySpeed;
 }

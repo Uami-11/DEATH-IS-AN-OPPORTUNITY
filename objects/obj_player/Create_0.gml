@@ -1,18 +1,21 @@
 state = player_state_free;
 
-jumpSpeed = 3;
-runSpeed = 5;
-Acceleration = 0.2;
-Decceleration = 0.5
-accelFinal = 0;
-lastH = 0;
-grav = .275;
-terminal = 4;
+/// Physics Vars (renamed to your style)
+runSpeed = 6;                // Max horizontal speed
+jumpSpeed = -4.5;              // Negative = upward
+jumpBufferCount = 0;         // Tracks buffered jump frames
+jumpBuffer = 10;             // How long a jump press is stored
+coyoteFrames = 10;           // "Ledge buffer" / coyote time
+accelRateGround = 0.3;
+accelRateAir = 0.2;
+brakeRateGround = 0.4;
+brakeRateAir = 0.2;
+gravMax = 8;                 // Max fall speed
+gravRate = 0.2;              // Gravity strength
 
-
+// Motion state
 xSpeed = 0;
 ySpeed = 0;
-jumpSpeed = -4
 
 bufferTime = 6;
 	

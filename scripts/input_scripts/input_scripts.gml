@@ -8,16 +8,5 @@ function keyboard_input(){
 	keyBurst = keyboard_check(ord("R"));
 	keyBubble = keyboard_check_pressed(ord("O"));
 	
-	
-	// jump buffering
-	if(keyJumpPressed){
-		jumpKeyBufferTimer = bufferTime;
-	}
-	if jumpKeyBufferTimer > 0
-	{
-		jumpKeyBuffered = 1;
-		jumpKeyBufferTimer--;
-	} else{
-		jumpKeyBuffered = 0;
-	}
+
 }
