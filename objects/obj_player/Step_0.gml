@@ -1,5 +1,5 @@
 keyboard_input();
-
+if !instance_exists(obj_invisi_camera) instance_create_depth(x, y, -999, obj_invisi_camera);
 
 
 script_execute(state)
@@ -16,3 +16,4 @@ if bubbled {
 }
 
 show_debug_message(bubbled)
+

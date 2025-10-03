@@ -1,4 +1,4 @@
 
-if (position_meeting(mouse_x, mouse_y, id) and mouse_check_button_pressed(mb_left)) {
+if (place_meeting(x, y, obj_player) and obj_player.keyUp) and !instance_exists(obj_textbox){
 	create_textbox(textID);
 }

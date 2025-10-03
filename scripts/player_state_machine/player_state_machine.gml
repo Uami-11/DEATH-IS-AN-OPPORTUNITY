@@ -1,4 +1,6 @@
 function player_change_animation(_input, _timer){
+		obj_invisi_camera.x = x;
+		obj_invisi_camera.y = y;
 		if !bubbled {
 			if (ySpeed != 0){
 				image_speed = 0;
@@ -49,8 +51,10 @@ function player_state_free(){
 	if died {
 		sprite_index = spr_player_dead
 	} else {
-		player_physics_step(_move_input, _jump_pressed);
-		player_change_animation(_move_input, _jump_pressed);
+		if !locked {
+			player_physics_step(_move_input, _jump_pressed);
+			player_change_animation(_move_input, _jump_pressed);
+		}
 	}
 
     show_debug_message("xSpeed: " + string(xSpeed) + " | ySpeed: " + string(ySpeed));
@@ -64,7 +68,7 @@ function player_state_bubble(){
 	
 	if !place_meeting(x, y-10, obj_wall){
 		y -= 1;
-	} else {bubbled = false; audio_play_sound(snd_popped, 10, 0); died = true;}
+	} else {bubbled = false; audio_play_sound(snd_popped, 10, 0); }
 	if place_meeting(x, y, obj_fog) {
 		x += 5 * obj_fog.dir;
 	} else {
@@ -73,7 +77,10 @@ function player_state_bubble(){
 	if place_meeting(x, y-11, obj_bubble_trap){
 		show_debug_message("HELLO I AM TRYING")
 		transition_start(room, sqSlideOutDiagonal, sqSlideInDiagonal)
-	
+		if !audio_is_playing(snd_fail){
+			audio_play_sound(snd_fail, 9, 0);
+		}
+		died = true;
 	}
 	if !place_meeting(x, y, obj_wall_phasable) and hurtTimer < 0{	
 		if keyBubble {
@@ -199,4 +206,8 @@ function player_physics_step(_move_input, _jump_pressed) {
 	}
 	
 	wasGrounded = grounded;
+}
+
+function player_state_locked(){
+	
 }

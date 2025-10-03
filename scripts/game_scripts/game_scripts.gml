@@ -18,6 +18,8 @@ function transition_place_sequence(_type){
 	var cam = view_camera[0];
 	var cx = camera_get_view_x(cam) + camera_get_view_width(cam) * 0.5 ;
 	var cy = camera_get_view_y(cam) + camera_get_view_height(cam) * 0.5;
+	show_debug_message(cx);
+	show_debug_message(cy);
 	layer_sequence_create(_lay, cx, cy, _type);
 }
 
