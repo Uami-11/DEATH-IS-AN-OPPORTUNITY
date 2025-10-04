@@ -1,4 +1,4 @@
-var keyConfirm = keyboard_check_pressed(ord("Z")) || keyboard_check_pressed(vk_enter);
+var keyConfirm = keyboard_check_pressed(ord("Z")) || keyboard_check_pressed(vk_space);
 var keyCancel  = keyboard_check_pressed(ord("X")) || keyboard_check_pressed(vk_shift);
 
 textboxX = camera_get_view_x(view_camera[0]);
@@ -8,7 +8,7 @@ textboxY = camera_get_view_y(view_camera[0]) + 20;
 
 if (!setup){
 	setup = true;
-	draw_set_font(fontText);
+	draw_set_font(fnt_main_font);
 	draw_set_valign(fa_top);
 	draw_set_halign(fa_left);
 	
@@ -36,7 +36,7 @@ if (!setup){
 			if char[c, i] ==  " " {lastFreeSpace = charPos+1};
 			
 			// get the line breaks 
-			if (_currentTextWidth - lineBreakOffset[i] > lineWidth * 0.8){
+			if (_currentTextWidth - lineBreakOffset[i] > lineWidth * 0.6){
 				lineBreakPos[lineBreakNo[i], i] = lastFreeSpace;
 				lineBreakNo[i]++;
 				var _textUpToLastSpace = string_copy(text[i], 1, lastFreeSpace);
@@ -67,7 +67,7 @@ if (!setup){
 			}
 
 			// add to the x and y coordinates 
-			charX[c, i] = _textX + _currentTextWidth*1.2;
+			charX[c, i] = _textX + _currentTextWidth * 1.5;
 			charY[c, i] = _textY + _textLine*lineSeperation;
 
 		}
@@ -206,5 +206,5 @@ for (var c = 0; c < drawChar; c++){
 	}
 
 	// the text
-	draw_text_transformed_color(charX[c, page] + _shakeX, charY[c, page] + _shakeY + _floatY, char[c, page], 1.2, 1.2, 0, col1[c, page], col2[c, page], col3[c, page], col4[c, page], 1);
+	draw_text_transformed_color(charX[c, page] + _shakeX, charY[c, page] + _shakeY + _floatY, char[c, page], 1.5, 1.5, 0, col1[c, page], col2[c, page], col3[c, page], col4[c, page], 1);
 }

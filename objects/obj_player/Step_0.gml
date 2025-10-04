@@ -17,3 +17,8 @@ if bubbled {
 
 show_debug_message(bubbled)
 
+if room = rm_level_six_1 {
+	if died = true{
+		global.remember.deadFinal++;
+	}
+}

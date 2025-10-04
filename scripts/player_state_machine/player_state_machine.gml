@@ -54,6 +54,12 @@ function player_state_free(){
 		if !locked {
 			player_physics_step(_move_input, _jump_pressed);
 			player_change_animation(_move_input, _jump_pressed);
+			
+		} else {
+				
+			if instance_exists(obj_textbox){
+				sprite_index = spr_player_idle
+			}
 		}
 	}
 
@@ -69,8 +75,9 @@ function player_state_bubble(){
 	if !place_meeting(x, y-10, obj_wall){
 		y -= 1;
 	} else {bubbled = false; audio_play_sound(snd_popped, 10, 0); }
-	if place_meeting(x, y, obj_fog) {
-		x += 5 * obj_fog.dir;
+	var inst = collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, obj_fog, false, true);
+	if (inst != noone) {
+	    x += 5 * inst.dir;
 	} else {
 		x += sin(timer*0.03) * 0.5;
 	}
@@ -209,5 +216,5 @@ function player_physics_step(_move_input, _jump_pressed) {
 }
 
 function player_state_locked(){
-	
+
 }

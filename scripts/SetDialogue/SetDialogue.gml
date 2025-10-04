@@ -3,6 +3,65 @@
 function game_text(_text_id){
 	
 	switch(_text_id){
+		case "expo":
+			if global.remember.exposition == 0 {
+				scr_text("The Fox! Thank goodness.");
+				scr_text("Glad you could make it on such short notice.");
+				scr_text("But right now we are infront of the most evil scheme ever concieved!");
+				scr_text("This is a saw making factory!");
+				scr_text("Or so they want us to think! We have just received intel that they are creating saws that turn you into bubbles!");
+				scr_text("The CEO, Arctic, wants to turn everyone into bubbles and rule the world!");
+				scr_text("The Fox... We need you to carefully platform your way through the factory and turn this operation off.");
+				scr_text("There will be many saws it there, and that would mean death in any other case.");
+				scr_text("But in this one... It might be an opportunity to weave through the many traps in there!");
+				scr_text("Goodluck The Fox, we believe in you!");
+				
+				global.remember.exposition++;
+			} else {
+				scr_text("Once you turn this factory off, we can live peacefully without any bubble turning saws.");
+			}
+			break;
+		
+		case "wind":
+			scr_text("Ahhhh, The Fox");
+			scr_text("Arctic expected you to come.");
+			scr_text("That's why she tasked me to put some roadblocks to stop anyone from getting any further!")
+			scr_text("Let's just say it will blow you away, muhahahah!");
+			break;
+		
+		case "eat":
+			scr_text("The Fox... I am immpressed you have made it this far.");
+			scr_text("You have used the opporunities given by these \"death\" bubbles quite well.");
+			scr_text("But I knew when we made these bubbles, that they would be a powerful tool for people able to burst through it.");
+			scr_text("So made bubble eating mice!!!");
+			break;
+		
+		case "bb":
+			scr_text("I used to be a factory worker, now I am a bubble ghost.");
+			scr_text("But life's good, all things considered.");
+			scr_text("On the other side of the room is Ducky. He is a duck. I think he is a developer of some sorts.");
+			scr_text("He is pretty cool.");
+			if global.remember.duckTalk > 0 {
+				scr_text("What? His name is Eagly? But he is a duck. Gotta be Ducky.");
+			}
+			global.remember.blindTalk++
+			break;
+			
+		case "antibb":
+			scr_text("That guy over there thinks I am a duck. I'm an eagle. And my name is Eagly???");
+			scr_text("I think he has bird blindness.");
+			global.remember.duckTalk++;
+			break;
+		
+		case "Final":
+			scr_text("Fox...");
+			scr_text("So, you've made it the the final floor.");
+			scr_text("You might think I made this factory to take over the world.");
+			scr_text("But no. I made it to kill you!");
+			scr_text("Why?")
+			
+			break;
+		
 		case "Ball":
 			global.npcInteractions++;
 			scr_text("My full name? Susie Gaster.", "Susie")

@@ -35,5 +35,5 @@
     "path":"sprites/spr_speakbox/spr_speakbox.yy",
   },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }
