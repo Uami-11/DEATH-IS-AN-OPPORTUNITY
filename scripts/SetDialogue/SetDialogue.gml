@@ -33,7 +33,9 @@ function game_text(_text_id){
 			scr_text("The Fox... I am immpressed you have made it this far.");
 			scr_text("You have used the opporunities given by these \"death\" bubbles quite well.");
 			scr_text("But I knew when we made these bubbles, that they would be a powerful tool for people able to burst through it.");
-			scr_text("So made bubble eating mice!!!");
+			scr_text("So I made bubble eating mice!!!");
+			scr_text("If they eat you, then you will...");
+			scr_text("Be magically transported to the beginning");
 			break;
 		
 		case "bb":
@@ -48,7 +50,7 @@ function game_text(_text_id){
 			break;
 			
 		case "antibb":
-			scr_text("That guy over there thinks I am a duck. I'm an eagle. And my name is Eagly???");
+			scr_text("That guy over there thinks I am a duck. I'm an eagle. And my name is Eagly?");
 			scr_text("I think he has bird blindness.");
 			global.remember.duckTalk++;
 			break;
@@ -59,6 +61,10 @@ function game_text(_text_id){
 			scr_text("You might think I made this factory to take over the world.");
 			scr_text("But no. I made it to kill you!");
 			scr_text("Why?")
+			scr_text("Isn't it obvious? Look at me! I am a big strong fox!");
+			scr_text("But what do they call you?");
+			scr_text("THE Fox! You're not THE anything! Ever since you came along, us foxes have been relegated to being like you!");
+			scr_text("Well no more! After you die in this floor, I'm taking the name back to the people! Screw you! I hate you.");
 			
 			break;
 		
