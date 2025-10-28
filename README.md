@@ -3,3 +3,5 @@ This is the game I made in 5 days for the Jamsepticeye Game Jam. I used GameMake
 
 You can check it out here
 [https://uami.itch.io/the-fox-against-the-evil-bubble-saw-factory](url)
+
+<img width="794" height="446" alt="image" src="https://github.com/user-attachments/assets/4b74954f-4066-4bf6-8e89-828c27a1481b" />
